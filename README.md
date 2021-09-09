@@ -1,2 +1,1 @@
-# comp2101
-administrative scripting 
+# COMP2101
