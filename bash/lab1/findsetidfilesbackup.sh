@@ -17,16 +17,8 @@
 
 echo "Setuid files:"
 echo "============="
-find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 5   
+find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 5
 echo ""
-
-echo "12 Largest Regular Files:"
-echo "========================="
-
-find / -type f -exec ls -lah {} + 2>/dev/null |
-  sort -k 5 -rh |
-  head -n 12 |
-  awk '{print "Owner-" $3 "  " "Size-" $5 "  " "Path/Name: " $9}'
 
 # for the task, add
 # commands to display a title
