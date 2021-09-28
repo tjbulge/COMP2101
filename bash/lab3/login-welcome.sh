@@ -24,7 +24,7 @@ today=$(date +%A)
 currenttime=$(date +%r)
 
 if [ $today == Monday ] ;then
-  title="Madam"
+  title="Glorious Leader"
 
 elif [ $today == Tuesday ] ;then
   title="Brave" 
@@ -39,7 +39,7 @@ elif [ $today == Friday ] ;then
   title="Gallant"
 
 elif [ $today == Saturday ] ;then
-  title="King"
+  title="Insufferable"
 
 elif [ $today == Sunday ] ;then
   title="Fool"
@@ -48,10 +48,16 @@ fi
 ###############
 # Main        #
 ###############
-cat <<EOF
 
-Welcome to planet $hostname, "$title $myname!"
-Today is $today
-The time is $currenttime 
+
+
+WELCOME=$(cat <<EOF
+
+Welcome to planet $hostname, $title $myname!
+Today is $today.
+It is $currenttime. 
 
 EOF
+)
+
+cowsay "$WELCOME"
