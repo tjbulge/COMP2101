@@ -89,7 +89,7 @@ externalName=$(getent hosts $externalIP | awk '{print $2}')
 routerIP=$(ip route show | grep default | awk '{print $3}')
 routerName=$(getent hosts $routerIP | awk '{print $2}')
 
-echo $externalName
+#echo $externalName
 cat <<EOF
 
 Hostname        : $computerHostname
