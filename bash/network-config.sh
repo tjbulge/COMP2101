@@ -76,20 +76,18 @@
 #   External Name   : $myExternalName
 
 computerHostname=$(hostname)
+networkInterface=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
 
-#getting LAN IP address and using that ip to search for the lan hostname in the /etc/hosts file 
-LANIP=$(ip a s $(ip a |awk '/: e/{gsub(/:/,"");print $2}')|awk '/inet /{gsub(/\/.*/,"");print $2}')
+LANIP=$(ip a s $networkInterface |awk '/inet /{gsub(/\/.*/,"");print $2}')
 LANHostname=$(getent hosts $LANIP | awk '{print $2}')
 
-#getting external IP address and checking for a name associated with that ip in /etc/hosts file
 externalIP=$(curl -s icanhazip.com)
 externalName=$(getent hosts $externalIP | awk '{print $2}')
 
-#checking for the router internal IP address in the routing table and using that IP to check for a name associated with that IP in /etc/hosts file
 routerIP=$(ip route show | grep default | awk '{print $3}')
 routerName=$(getent hosts $routerIP | awk '{print $2}')
 
-#echo $externalName
+
 cat <<EOF
 
 Hostname        : $computerHostname
@@ -99,6 +97,5 @@ External IP     : $externalIP
 External Name   : $externalName
 Router Address  : $routerIP
 Router Name     : $routerName
-
 EOF
 
