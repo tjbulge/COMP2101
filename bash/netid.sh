@@ -25,6 +25,8 @@
 
 interfacelist=( $(ip link show | grep ^[0-9] |awk '{print $2}' | sed 's/://' | sed 's/lo//' ) )
 
+#interfacelist=("ens34" "ens33" "ens355")
+
 #this checks to see if the first argument is -v or an interface
 #if it is an interface then it checks to see if the interface is in the list that was dynamically gathered
 #if the entered interface is not in the list gathered, the script exits
@@ -37,6 +39,7 @@ then
 else
   for int in "${interfacelist[@]}"; do
     [ "$1" == "$int" ] && interface=$1
+  #echo "int is $int"
   done
 
 fi
@@ -51,9 +54,7 @@ while [ $# -gt 0 ]; do
       ;;
 
    $interface )
-      if [ "$verbose" = 'yes' ]; then
-        echo "$interface entered on command line"
-      fi
+      echo "$interface entered on command line"
       interfaceEntered='yes'
       ;;
 
@@ -79,7 +80,7 @@ done
 # Once per host report
 #####
 
-if [ "$verbose" = "yes" ] && [ "$interfaceEntered" = "yes" ] || [ "$verbose" = '' ] && [ "$interfaceEntered" = '' ] || [ "$verbose" = 'yes' ]; then
+if [ "$verbose" = "yes" ] && [ "$interfaceEntered" = "yes" ] || [ "$verbose" = "" ] && [ "$interfaceEntered" = "" ] || [ "$verbose" = "yes" ]; then
 
 [ "$verbose" = "yes" ] && echo "Gathering host information"
 # we use the hostname command to get our system name
@@ -130,23 +131,30 @@ fi
 # Per-interface report
 #####
 
-#setting the loop to run based on the number of interfaces specified or gathered (depending on arguments entered in command)
-if [ "$interfaceEntered" = "yes" ]; then
-  loopcount=1
+#setting the loop to run based on the number of interfaces gathered dynamically or if a specific interface was entered
+
+if [ "$interfaceEntered" = "yes" ] && [ "$verbose" = "" ]; then
+  totalloops=1
+
+elif [ "$interfaceEntered" = '' ]; then
+  totalloops=${#interfacelist[@]}
 
 else
-  loopcount=${#interfacelist[@]}
+  totalloops=${#interfacelist[@]}
 
 fi
 count=0
 
-#a command to check if the loopcount is being set properly
-#echo "$loopcount"
 
-while [ $count != $loopcount ]; do
+while [ "$count" != "$totalloops" ]; do
 
-  #setting the interface for current interface loop
-  interface=${interfacelist[$count]}
+  if [ "$totalloops" = "${#interfacelist[@]}" ]; then
+    interface=${interfacelist[$count]}
+
+  fi
+  #setting the interface for current interface loop only if the loopcount is greater than one
+  #if the loop count is not greater than 1, then only the interface specified on the command line is displayed
+
   # define the interface being summarized
 
   [ "$verbose" = "yes" ] && echo "Reporting on interface(s): $interface"
