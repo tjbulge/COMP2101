@@ -34,15 +34,22 @@ interfacelist=( $(ip link show | grep ^[0-9] |awk '{print $2}' | sed 's/://' | s
 
 if [ "$1" = "-v" ];
 then
-    echo "first argument is not an interface"
+  echo "-v is first argument"
 
-else
+elif [ "$2" = "-v" ];
+then
+  echo "-v is second argument"
+
+fi
   for int in "${interfacelist[@]}"; do
     [ "$1" == "$int" ] && interface=$1
   #echo "int is $int"
   done
 
-fi
+for int in "${interfacelist[@]}"; do
+    [ "$2" == "$int" ] && interface=$2
+  #echo "int is $int"
+  done
 
 while [ $# -gt 0 ]; do
 
