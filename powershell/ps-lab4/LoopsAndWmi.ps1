@@ -29,7 +29,7 @@ function ProcessorInformation {
     $processor | 
     select-object Description,
                 @{Name="Speed"; E={if ($_.MaxClockSpeed) {$_.MaxClockSpeed} else{"Data Unavailable"}}},
-                @{Name="Number of Cores" ; E={if ($_.numberofcores) {$_numberofcores} else {"Data Unvailable"}}},
+                @{Name="Number of Cores" ; E={if ($_.numberofcores) {$_.numberofcores} else {"Data Unvailable"}}},
                 @{Name="L1 Cache Size" ; E={if ($_.l1cachesize) {$_.l1cachesize} else {"Data Unvailable"}}},
                 @{Name="L2 Cache Size" ; E={if ($_.l2cachesize) {$_.l2cachesize} else {"Data Unvailable"}}},
                 @{Name="L3 Cache Size" ; E={if ($_.l3cachesize) {$_.l3cachesize} else {"Data Unvailable"}}} |
