@@ -104,4 +104,3 @@ function VideoInformation {
                 @{name="Resolution"; E={ if ($_.videomodedescription) {$_.videomodedescription} else {"Data Unavailable"}}} |
     format-list
 }
-
